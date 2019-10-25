@@ -18,11 +18,11 @@ class CreateProductsTable extends Migration
             $table->integer('quantity');
             $table->string('serial');
             $table->boolean('status')->default(1);
-            $table->interger('brand_id')->nullable()->unsigned();
-            $table->interger('manufacture_id')->nullable()->unsigned();
-            $table->interger('category_id')->nullable()->unsigned();
-            $table->interger('description_id')->nullable()->unsigned();
-            $table->interger('location_id')->nullable()->unsigned();
+            $table->integer('brand_id')->nullable()->unsigned();
+            $table->integer('manufacture_id')->nullable()->unsigned();
+            $table->integer('category_id')->nullable()->unsigned();
+            $table->integer('description_id')->nullable()->unsigned();
+            $table->integer('location_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }
