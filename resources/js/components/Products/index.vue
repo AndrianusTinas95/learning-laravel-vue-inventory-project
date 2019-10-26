@@ -3,10 +3,10 @@
         <form id="search">
             <input type="text" class="form-control" placeholder="search..." name="query" v-model="searchQuery" aria-describedby="basic-addon1">
         </form>
-        <div v-if="brands">
+        <div v-if="collection">
             <demo-grid
-                :data="brands"
-                :columns="brandsColumns"
+                :data="collection"
+                :columns="collectionColumns"
                 :filter-key="searchQuery"
             >
             </demo-grid>
@@ -17,25 +17,24 @@
     </div>
 </template>
 <script>
-    // var path = './../Filtering/filter.vue';
-    // import DemoGrid from path;
+    import DemoGrid from './../Filtering/filter.vue';
     export default{
         components:{
-            // DemoGrid
+            DemoGrid
         },
         data(){
             return {
                 searchQuery:'',
-                brandsColumns:['name',],
-                brands:[]
+                collectionColumns:['name',],
+                collection:[]
             }
         },
         created(){
-            this.fetcbrands();
+            this.fetchCollection();
         },
         methods:{
-            fetcbrands(){
-                axios.get('api/brands').then(resp => this.brands = resp.data.brands)
+            fetchCollection(){
+                axios.get('api/product').then(resp => this.collection = resp.data.product)
             }
         }
     }

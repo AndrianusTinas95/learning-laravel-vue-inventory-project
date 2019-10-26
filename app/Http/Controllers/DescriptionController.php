@@ -14,8 +14,8 @@ class DescriptionController extends Controller
      */
     public function index()
     {
-        $decriptions = Description::orderBy('created_at','desc')->get();
-        return response()->json(['decriptions'=> $decriptions],200);
+        $descriptions = Description::orderBy('created_at','desc')->get();
+        return response()->json(['descriptions'=> $descriptions],200);
     }
 
     /**

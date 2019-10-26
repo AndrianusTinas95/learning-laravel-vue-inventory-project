@@ -1,38 +1,39 @@
 <template>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button class="navbar-toggel collapsed" data-toggel="collapse" data-target="#app-navbar-collapse">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a href="" class="navbar-brand">Inventory</a>
-                </div>
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <ul class="nav navbar-nav navbar-left">
-                        <li><a >Create CFAT</a></li>
-                        <li><a >Tech Items</a></li>
-                        <li><a >Descriptions</a></li>
-                        <li><a >Model</a></li>
-                        <li><a >Manufactures</a></li>
-                        <li><a >Locations</a></li>
-                        <li><a >Categories</a></li>
-                    </ul>
-                </div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="#">Inventory</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <router-link class="nav-link" :to="{name:'descriptions'}">Descriptions</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" :to="{name:'brands'}">Brands</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" :to="{name:'manufactures'}">Manufactures</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" :to="{name:'locations'}">Locations</router-link>
+                    </li> 
+                    <li class="nav-item">
+                        <router-link class="nav-link" :to="{name:'categories'}">Categories</router-link>
+                    </li>
+                </ul>
+                <span class="navbar-text">
+                Navbar text with an inline element
+                </span>
             </div>
         </nav>
+     
         <router-view></router-view>
     </div>
 </template>
 <script>
   export default{
-      data(){
-          return[
-              
-          ]
-      }
+      
   }
 </script>

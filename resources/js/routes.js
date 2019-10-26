@@ -7,27 +7,27 @@ import Manufactures from "./components/Manufactures/index.vue";
 export default [
     {
         path:'/brands',
-        components:Brands,
+        component:Brands,
         name:'brands'
     },
     {
         path:'/categories',
-        components:Categories,
+        component:Categories,
         name:'categories'
     },
     {
         path:'/descriptions',
-        components:Descriptions,
+        component:Descriptions,
         name:'descriptions'
     },
     {
         path:'/locations',
-        components:Locations,
+        component:Locations,
         name:'locations'
     },
     {
         path:'/manufactures',
-        components:Manufactures,
+        component:Manufactures,
         name:'manufactures'
     }
 ];

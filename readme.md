@@ -8,3 +8,4 @@ This is step by step I learn :
 03. 【Laravel 5 4 Vue 2 2 x】  Setting up vue project,setting view, api, seed
 04. 【Laravel 5 4 Vuejs 2】  Preparing api call to all components
 05. 【Laravel 5 4 Vuejs 2】   Populating api
+06. 【Laravel 5 4 Vuejs 2】  displaying the contents of api

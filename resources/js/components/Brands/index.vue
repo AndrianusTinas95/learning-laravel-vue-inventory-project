@@ -25,16 +25,16 @@
         data(){
             return {
                 searchQuery:'',
-                brandsColumns:['name',],
+                brandsColumns:['name'],
                 brands:[]
             }
         },
         created(){
-            this.fetcbrands();
+            this.fetchbrands();
         },
         methods:{
-            fetcbrands(){
-                axios.get('api/brands').then(resp => this.brands = resp.data.brands)
+            fetchbrands(){
+                axios.get('/api/brands').then(resp => this.brands = resp.data.brands);
             }
         }
     }

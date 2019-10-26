@@ -20,4 +20,4 @@ const router = new VueRouter({
     routes:routes
 });
 
-new Vue(Vue.until.extend({router},App)).$mount("#app");
+new Vue(Vue.util.extend({router},App)).$mount("#app");
