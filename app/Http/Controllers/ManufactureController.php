@@ -14,7 +14,8 @@ class ManufactureController extends Controller
      */
     public function index()
     {
-        //
+        $manufactures = Manufacture::orderBy('created_at','desc')->get();
+        return response()->json(['manufactures'=> $manufactures],200);
     }
 
     /**

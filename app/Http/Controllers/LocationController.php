@@ -14,7 +14,8 @@ class LocationController extends Controller
      */
     public function index()
     {
-        //
+        $locations = Location::orderBy('created_at','desc')->get();
+        return response()->json(['locations'=> $locations],200);
     }
 
     /**

@@ -1,26 +1,39 @@
 <template>
     <div>
-        <table id="example" class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th v-for="key in column" 
-                        @click="sortBy{key}"
-                        :class="{active:sortKey == key}"
-                    >
-                    {{key|kapitalize}}
-                    <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
-                    </span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="entry in filteredData">
-                    <td v-for="key in columns">
-                        {{entry[key]}}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+         <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">Brands</div>
+
+                        <div class="card-body">
+                            <table id="example" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th v-for="key in column" 
+                                            @click="sortBy{key}"
+                                            :class="{active:sortKey == key}"
+                                        >
+                                        {{key|kapitalize}}
+                                        <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
+                                        </span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="entry in filteredData">
+                                        <td v-for="key in columns">
+                                            {{entry[key]}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 

@@ -14,7 +14,8 @@ class TransferController extends Controller
      */
     public function index()
     {
-        //
+        $transfer = Transfer::orderBy('created_at','desc')->get();
+        return response()->json(['transfer'=> $transfer],200);
     }
 
     /**
