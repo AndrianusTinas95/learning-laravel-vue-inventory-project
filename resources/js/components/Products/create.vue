@@ -31,7 +31,7 @@
                                     <tbody>
                                         <tr v-for="(addTd, index) in addRows">
                                             <td> 
-                                                <input  class="form-control" type="text" placeholder="Serial">
+                                                <input v-model="addTd.serial" class="form-control" type="text" placeholder="Serial">
                                             </td>
                                             <td>
                                                 <select class="form-control"
@@ -93,6 +93,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <button class="btn btn-primary" @click="addSerial"> Add Serial </button>
                             </div>
                         </section>
                     </div>
@@ -124,15 +125,24 @@
             this.fetchLocation();
         },
         methods:{
+            addSerial:function() {
+                var addRows = _.map(this.addRows,function(num){
+                    return _.pick(num,'quantity','serial','manufacture','description','location','category','model','status');
+                });  
+                axios.post('../api/products',{products:addRows}).then(resp =>{
+                    console.log(resp.data);
+                });
+            },
             addRow(){
                 this.addRows.push({
+                    quantity:1,
                     serial:null,
                     status:null,
                     model:null,
                     category:null,
                     description:null,
                     manufacture:null,
-                    locaton:null,
+                    location:null,
                 });
             },
             fetchModel:function(){

@@ -2543,6 +2543,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2564,15 +2565,27 @@ __webpack_require__.r(__webpack_exports__);
     this.fetchLocation();
   },
   methods: {
+    addSerial: function addSerial() {
+      var addRows = _.map(this.addRows, function (num) {
+        return _.pick(num, 'quantity', 'serial', 'manufacture', 'description', 'location', 'category', 'model', 'status');
+      });
+
+      axios.post('../api/products', {
+        products: addRows
+      }).then(function (resp) {
+        console.log(resp.data);
+      });
+    },
     addRow: function addRow() {
       this.addRows.push({
+        quantity: 1,
         serial: null,
         status: null,
         model: null,
         category: null,
         description: null,
         manufacture: null,
-        locaton: null
+        location: null
       });
     },
     fetchModel: function fetchModel() {
@@ -38904,7 +38917,29 @@ var render = function() {
                     "tbody",
                     _vm._l(_vm.addRows, function(addTd, index) {
                       return _c("tr", [
-                        _vm._m(1, true),
+                        _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: addTd.serial,
+                                expression: "addTd.serial"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text", placeholder: "Serial" },
+                            domProps: { value: addTd.serial },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(addTd, "serial", $event.target.value)
+                              }
+                            }
+                          })
+                        ]),
                         _vm._v(" "),
                         _c("td", [
                           _c(
@@ -39214,7 +39249,16 @@ var render = function() {
                     }),
                     0
                   )
-                ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    on: { click: _vm.addSerial }
+                  },
+                  [_vm._v(" Add Serial ")]
+                )
               ])
             ])
           ])
@@ -39232,17 +39276,6 @@ var staticRenderFns = [
       _c("header", { staticClass: "card card-header" }, [
         _c("h3", [_vm._v("Create Teach Item")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "text", placeholder: "Serial" }
-      })
     ])
   }
 ]

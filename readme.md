@@ -12,3 +12,4 @@ This is step by step I learn :
 07. 【Laravel 5 4 Vuejs 2 Inventory】  create vue file
 08. 【Laravel 5 4 Vuejs 2 Inventory】  Product Get specific columns
 09. 【Laravel 5 4 Vuejs 2 Inventory】  Vue.js with multiple instances  multifield
+10. 【Laravel 5 4 Vuejs 2 Inventory】  saving multiple input using axios post
