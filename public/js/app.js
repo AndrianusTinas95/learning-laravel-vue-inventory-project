@@ -2499,7 +2499,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       searchQuery: '',
-      collectionColumns: ['serial', 'quantity'],
+      collectionColumns: ['serial', 'quantity', 'category', 'description', 'location', 'manufacture', 'model'],
       collection: []
     };
   },
@@ -2511,7 +2511,21 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('api/products').then(function (resp) {
-        return _this.collection = resp.data.products;
+        return _this.collection = _.map(resp.data.products, function (num) {
+          var pick = _.pick(num, 'quantity', 'serial', 'manufacture.name', 'description.name', 'location.name', 'category.name', 'brand.name', 'status');
+
+          var objectProduct = {
+            quantity: pick.quantity,
+            serial: pick.serial,
+            manufacture: pick.manufacture.name,
+            description: pick.description.name,
+            location: pick.location.name,
+            category: pick.category.name,
+            brand: pick.brand.name,
+            model: pick.status
+          };
+          return objectProduct;
+        });
       });
     }
   }

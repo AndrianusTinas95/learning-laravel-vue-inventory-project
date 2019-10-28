@@ -9,3 +9,5 @@ This is step by step I learn :
 04. 【Laravel 5 4 Vuejs 2】  Preparing api call to all components
 05. 【Laravel 5 4 Vuejs 2】   Populating api
 06. 【Laravel 5 4 Vuejs 2】  displaying the contents of api
+07. 【Laravel 5 4 Vuejs 2 Inventory】  create vue file
+08. 【Laravel 5 4 Vuejs 2 Inventory】  Product Get specific columns
