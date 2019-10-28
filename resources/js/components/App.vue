@@ -8,6 +8,9 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
+                        <router-link class="nav-link" :to="{name:'products'}">Tech Items</router-link>
+                    </li>
+                    <li class="nav-item">
                         <router-link class="nav-link" :to="{name:'descriptions'}">Descriptions</router-link>
                     </li>
                     <li class="nav-item">

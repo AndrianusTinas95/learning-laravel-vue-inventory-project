@@ -25,7 +25,7 @@
         data(){
             return {
                 searchQuery:'',
-                collectionColumns:['name',],
+                collectionColumns:['serial','quantity'],
                 collection:[]
             }
         },
@@ -34,7 +34,7 @@
         },
         methods:{
             fetchCollection(){
-                axios.get('api/product').then(resp => this.collection = resp.data.product)
+                axios.get('api/products').then(resp => this.collection = resp.data.products)
             }
         }
     }
