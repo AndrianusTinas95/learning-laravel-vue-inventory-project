@@ -2225,6 +2225,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     data: Array,
@@ -2275,7 +2277,8 @@ __webpack_require__.r(__webpack_exports__);
 
             if (_.size(searchKey) == 1) {
               filter = String(row[key]).toLowerCase().indexOf(filterKey) || String(row['name']).toLowerCase().indexOf(searchKey['name'].toLowerCase());
-            } else if (_.size(searchKey == 7)) {
+            } else if (_.size(searchKey) == 7) {
+              console.log('hem');
               filter = String(row[key]).toLowerCase().indexOf(filterKey) || String(row['serial']).toLowerCase().indexOf(searchKey['serial'].toLowerCase()) || String(row['quantity']).toLowerCase().indexOf(searchKey['quantity'].toLowerCase()) || String(row['description']).toLowerCase().indexOf(searchKey['description'].toLowerCase()) || String(row['location']).toLowerCase().indexOf(searchKey['location'].toLowerCase()) || String(row['manufacture']).toLowerCase().indexOf(searchKey['manufacture'].toLowerCase()) || String(row['model']).toLowerCase().indexOf(searchKey['model'].toLowerCase()) || String(row['category']).toLowerCase().indexOf(searchKey['category'].toLowerCase());
             }
 
@@ -39124,18 +39127,20 @@ var render = function() {
                             directives: [
                               {
                                 name: "model",
-                                rawName: "v-model.lazy",
+                                rawName: "v-model",
                                 value: _vm.searchOrder[key],
-                                expression: "searchOrder[key]",
-                                modifiers: { lazy: true }
+                                expression: "searchOrder[key]"
                               }
                             ],
                             staticClass: "input form-control",
                             attrs: { placeholder: key },
                             domProps: { value: _vm.searchOrder[key] },
                             on: {
-                              change: function($event) {
-                                return _vm.$set(
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
                                   _vm.searchOrder,
                                   key,
                                   $event.target.value
@@ -39178,19 +39183,27 @@ var render = function() {
                   [
                     _vm._m(0),
                     _vm._v(" "),
-                    _c("li", { class: { active: _vm.currentPage === 0 } }, [
-                      _c(
-                        "a",
-                        {
-                          on: {
-                            click: function($event) {
-                              return _vm.setPage(0)
+                    _c(
+                      "li",
+                      {
+                        staticClass: "page-item",
+                        class: { active: _vm.currentPage === 0 }
+                      },
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "page-link",
+                            on: {
+                              click: function($event) {
+                                return _vm.setPage(0)
+                              }
                             }
-                          }
-                        },
-                        [_vm._v("1")]
-                      )
-                    ]),
+                          },
+                          [_vm._v("1")]
+                        )
+                      ]
+                    ),
                     _vm._v(" "),
                     _vm._l(_vm.totalPages, function(pageNumber) {
                       return Math.abs(pageNumber - _vm.currentPage) < 3 ||
@@ -39199,12 +39212,14 @@ var render = function() {
                         ? _c(
                             "li",
                             {
+                              staticClass: "page-item",
                               class: { active: _vm.currentPage === pageNumber }
                             },
                             [
                               _c(
                                 "a",
                                 {
+                                  staticClass: "page-link",
                                   class: {
                                     active: _vm.currentPage === pageNumber,
                                     last:
@@ -39257,20 +39272,37 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", [
-      _c("a", { attrs: { "aria-label": "Provious" } }, [
-        _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("«")])
-      ])
+    return _c("li", { staticClass: "page-item" }, [
+      _c(
+        "a",
+        { staticClass: "page-link", attrs: { "aria-label": "Provious" } },
+        [
+          _vm._v(
+            "\n                                        Previous\n                                        "
+          ),
+          _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("«")])
+        ]
+      )
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", [
-      _c("a", { attrs: { href: "#", "aria-label": "Next" } }, [
-        _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("»")])
-      ])
+    return _c("li", { staticClass: "page-item" }, [
+      _c(
+        "a",
+        {
+          staticClass: "page-link",
+          attrs: { href: "#", "aria-label": "Next" }
+        },
+        [
+          _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("»")]),
+          _vm._v(
+            "\n                                        Next\n                                    "
+          )
+        ]
+      )
     ])
   }
 ]

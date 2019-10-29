@@ -15,3 +15,4 @@ This is step by step I learn :
 10. 【Laravel 5 4 Vuejs 2 Inventory】  saving multiple input using axios post
 11. 【Laravel 5 4 Vuejs 2 Inventory】  hotkey shortcut to add and delete rows
 12. 【Laravel 5 4 Vuejs 2 Inventory】 paginated and search table
+13. 【Laravel 5 4 Vuejs 2 Inventory】 individual column search or filter

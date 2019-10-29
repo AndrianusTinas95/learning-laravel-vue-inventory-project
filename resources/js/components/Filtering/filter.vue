@@ -23,7 +23,7 @@
                                 <thead>
                                     <tr>
                                         <th v-for="key in columns" >
-                                            <input class="input form-control" v-model.lazy="searchOrder[key]" :placeholder="key">
+                                            <input class="input form-control" v-model="searchOrder[key]" :placeholder="key">
                                         </th>
                                     </tr>
                                 </thead>
@@ -37,24 +37,26 @@
                             </table>
                             <nav aria-label="Page Navigation">
                                 <ul class="pagination">
-                                    <li>
-                                        <a aria-label="Provious">
+                                    <li class="page-item">
+                                        <a aria-label="Provious" class="page-link">
+                                            Previous
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
-                                    <li :class="{'active':currentPage===0}">
-                                        <a @click="setPage(0)">1</a>
+                                    <li class="page-item" :class="{'active':currentPage===0}">
+                                        <a @click="setPage(0)" class="page-link">1</a>
                                     </li>
-                                    <li v-for="pageNumber in totalPages" v-if="Math.abs(pageNumber-currentPage) < 3 || pageNumber == totalPages - 1 || pageNumber == 0" :class="{'active':currentPage === pageNumber}">
-                                        <a @click="setPage(pageNumber)" :class="{'active':currentPage === pageNumber, last:(pageNumber == totalPages - 1 && Math.abs(pageNumber - currentPage) > 3 ),first:(pageNumber == 0 && Math.abs(pageNumber - currentPage) > 3)}">
+                                    <li class="page-item" v-for="pageNumber in totalPages" v-if="Math.abs(pageNumber-currentPage) < 3 || pageNumber == totalPages - 1 || pageNumber == 0" :class="{'active':currentPage === pageNumber}">
+                                        <a class="page-link" @click="setPage(pageNumber)" :class="{'active':currentPage === pageNumber, last:(pageNumber == totalPages - 1 && Math.abs(pageNumber - currentPage) > 3 ),first:(pageNumber == 0 && Math.abs(pageNumber - currentPage) > 3)}">
                                             <span>{{pageNumber+1}} 
                                                 <span v-if="currentPage == pageNumber" class="sr-only"> (current) </span> 
                                             </span> 
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="#" aria-label="Next">
+                                    <li class="page-item">
+                                        <a href="#" aria-label="Next" class="page-link">
                                             <span aria-hidden="true">&raquo;</span>
+                                            Next
                                         </a>
                                     </li>
                                 </ul>
@@ -101,10 +103,10 @@
             },
             paginatedData:function(){
                 if(this.currentPage >= this.totalPages){
-                    this.currentPage = this.totalPages
+                    this.currentPage = this.totalPages;
                 }
-                var index = this.currentPage * this.itemsPerPage
-                return this.filteredData.slice(index,index + this.itemsPerPage)
+                var index = this.currentPage * this.itemsPerPage;
+                return this.filteredData.slice(index,index + this.itemsPerPage);
             },
             filteredData: function(){
                 var sortKey     = this.sortKey;
@@ -112,14 +114,16 @@
                 var searchKey   = this.searchOrder;
                 var order       = this.sortOrders[sortKey] || 1;
                 var data        = this.data;
+
                 if(filterKey || searchKey){
                     data = data.filter(function(row) {
                         return Object.keys(row).some(function(key){
                             var filter;
                             if(_.size(searchKey) == 1){
-                                filter = (String(row[key]).toLowerCase().indexOf(filterKey)) || (String(row['name']).toLowerCase().indexOf(searchKey['name'].toLowerCase()))
-                            }else if(_.size(searchKey == 7)){
-                                filter = (String(row[key]).toLowerCase().indexOf(filterKey)) ||
+                                filter = (String(row[key]).toLowerCase().indexOf(filterKey)) || (String(row['name']).toLowerCase().indexOf(searchKey['name'].toLowerCase()));
+                            }else if(_.size(searchKey) == 7){
+                                console.log('hem')
+                                filter =(String(row[key]).toLowerCase().indexOf(filterKey))||
                                         (String(row['serial']).toLowerCase().indexOf(searchKey['serial'].toLowerCase())) ||
                                         (String(row['quantity']).toLowerCase().indexOf(searchKey['quantity'].toLowerCase())) ||
                                         (String(row['description']).toLowerCase().indexOf(searchKey['description'].toLowerCase())) ||
