@@ -18,3 +18,4 @@ This is step by step I learn :
 13. 【Laravel 5 4 Vuejs 2 Inventory】 individual column search or filter
 14. 【Laravel 5 4 Vuejs 2 Inventory】 preparing to create a createCFAT transaction
 15. 【Laravel 5 4 Vuejs 2 Inventory】 Testing a PHPExcel in laravel to create fat
+16. 【Laravel 5 4 Vuejs 2 Inventory】 create a serial toggle  and create the additioncomponent
