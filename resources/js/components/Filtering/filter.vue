@@ -122,7 +122,6 @@
                             if(_.size(searchKey) == 1){
                                 filter = (String(row[key]).toLowerCase().indexOf(filterKey)) || (String(row['name']).toLowerCase().indexOf(searchKey['name'].toLowerCase()));
                             }else if(_.size(searchKey) == 7){
-                                console.log('hem')
                                 filter =(String(row[key]).toLowerCase().indexOf(filterKey))||
                                         (String(row['serial']).toLowerCase().indexOf(searchKey['serial'].toLowerCase())) ||
                                         (String(row['quantity']).toLowerCase().indexOf(searchKey['quantity'].toLowerCase())) ||
