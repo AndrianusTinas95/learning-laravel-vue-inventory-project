@@ -2194,7 +2194,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-// import { filter } from 'minimatch';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     data: Array,
@@ -2206,22 +2236,50 @@ __webpack_require__.r(__webpack_exports__);
     this.columns.forEach(function (key) {
       sortOrders[key] = 1;
     });
+    var searchKeys = {};
+    this.columns.forEach(function (key) {
+      searchKeys[key] = '';
+    });
     return {
       sortKey: '',
-      sortOrders: sortOrders
+      sortOrders: sortOrders,
+      searchOrder: searchKeys,
+      currentPage: 0,
+      itemsPerPage: 10,
+      resultCount: 0
     };
   },
   computed: {
+    totalPages: function totalPages() {
+      return Math.ceil(this.filteredData.length / this.itemsPerPage);
+    },
+    paginatedData: function paginatedData() {
+      if (this.currentPage >= this.totalPages) {
+        this.currentPage = this.totalPages;
+      }
+
+      var index = this.currentPage * this.itemsPerPage;
+      return this.filteredData.slice(index, index + this.itemsPerPage);
+    },
     filteredData: function filteredData() {
       var sortKey = this.sortKey;
       var filterKey = this.filterKey && this.filterKey.toLowerCase();
+      var searchKey = this.searchOrder;
       var order = this.sortOrders[sortKey] || 1;
       var data = this.data;
 
-      if (filterKey) {
+      if (filterKey || searchKey) {
         data = data.filter(function (row) {
           return Object.keys(row).some(function (key) {
-            return String(row[key]).toLowerCase().indexOf(filterKey) > -1;
+            var filter;
+
+            if (_.size(searchKey) == 1) {
+              filter = String(row[key]).toLowerCase().indexOf(filterKey) || String(row['name']).toLowerCase().indexOf(searchKey['name'].toLowerCase());
+            } else if (_.size(searchKey == 7)) {
+              filter = String(row[key]).toLowerCase().indexOf(filterKey) || String(row['serial']).toLowerCase().indexOf(searchKey['serial'].toLowerCase()) || String(row['quantity']).toLowerCase().indexOf(searchKey['quantity'].toLowerCase()) || String(row['description']).toLowerCase().indexOf(searchKey['description'].toLowerCase()) || String(row['location']).toLowerCase().indexOf(searchKey['location'].toLowerCase()) || String(row['manufacture']).toLowerCase().indexOf(searchKey['manufacture'].toLowerCase()) || String(row['model']).toLowerCase().indexOf(searchKey['model'].toLowerCase()) || String(row['category']).toLowerCase().indexOf(searchKey['category'].toLowerCase());
+            }
+
+            return filter > -1;
           });
         });
       }
@@ -2246,6 +2304,9 @@ __webpack_require__.r(__webpack_exports__);
     sortBy: function sortBy(key) {
       this.sortKey = key;
       this.sortOrders[key] = this.sortOrders[key] * -1;
+    },
+    setPage: function setPage(pageNumber) {
+      this.currentPage = pageNumber;
     }
   }
 });
@@ -39011,7 +39072,7 @@ var render = function() {
   return _c("div", [
     _c("div", { staticClass: "container" }, [
       _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
+        _c("div", { staticClass: "col-md-10" }, [
           _c("div", { staticClass: "card" }, [
             _c("div", { staticClass: "card-header" }, [_vm._v("Header")]),
             _vm._v(" "),
@@ -39054,9 +39115,43 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
+                  _c("thead", [
+                    _c(
+                      "tr",
+                      _vm._l(_vm.columns, function(key) {
+                        return _c("th", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model.lazy",
+                                value: _vm.searchOrder[key],
+                                expression: "searchOrder[key]",
+                                modifiers: { lazy: true }
+                              }
+                            ],
+                            staticClass: "input form-control",
+                            attrs: { placeholder: key },
+                            domProps: { value: _vm.searchOrder[key] },
+                            on: {
+                              change: function($event) {
+                                return _vm.$set(
+                                  _vm.searchOrder,
+                                  key,
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      }),
+                      0
+                    )
+                  ]),
+                  _vm._v(" "),
                   _c(
                     "tbody",
-                    _vm._l(_vm.filteredData, function(entry) {
+                    _vm._l(_vm.paginatedData, function(entry) {
                       return _c(
                         "tr",
                         _vm._l(_vm.columns, function(key) {
@@ -39074,7 +39169,82 @@ var render = function() {
                     0
                   )
                 ]
-              )
+              ),
+              _vm._v(" "),
+              _c("nav", { attrs: { "aria-label": "Page Navigation" } }, [
+                _c(
+                  "ul",
+                  { staticClass: "pagination" },
+                  [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c("li", { class: { active: _vm.currentPage === 0 } }, [
+                      _c(
+                        "a",
+                        {
+                          on: {
+                            click: function($event) {
+                              return _vm.setPage(0)
+                            }
+                          }
+                        },
+                        [_vm._v("1")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.totalPages, function(pageNumber) {
+                      return Math.abs(pageNumber - _vm.currentPage) < 3 ||
+                        pageNumber == _vm.totalPages - 1 ||
+                        pageNumber == 0
+                        ? _c(
+                            "li",
+                            {
+                              class: { active: _vm.currentPage === pageNumber }
+                            },
+                            [
+                              _c(
+                                "a",
+                                {
+                                  class: {
+                                    active: _vm.currentPage === pageNumber,
+                                    last:
+                                      pageNumber == _vm.totalPages - 1 &&
+                                      Math.abs(pageNumber - _vm.currentPage) >
+                                        3,
+                                    first:
+                                      pageNumber == 0 &&
+                                      Math.abs(pageNumber - _vm.currentPage) > 3
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.setPage(pageNumber)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("span", [
+                                    _vm._v(
+                                      _vm._s(pageNumber + 1) +
+                                        " \n                                            "
+                                    ),
+                                    _vm.currentPage == pageNumber
+                                      ? _c("span", { staticClass: "sr-only" }, [
+                                          _vm._v(" (current) ")
+                                        ])
+                                      : _vm._e()
+                                  ])
+                                ]
+                              )
+                            ]
+                          )
+                        : _vm._e()
+                    }),
+                    _vm._v(" "),
+                    _vm._m(1)
+                  ],
+                  2
+                )
+              ])
             ])
           ])
         ])
@@ -39082,7 +39252,28 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("a", { attrs: { "aria-label": "Provious" } }, [
+        _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("«")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("a", { attrs: { href: "#", "aria-label": "Next" } }, [
+        _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("»")])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
