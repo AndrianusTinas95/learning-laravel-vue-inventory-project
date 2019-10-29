@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TransferExport;
 use App\Model\Transfer;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransferController extends Controller
 {
@@ -36,7 +38,7 @@ class TransferController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Excel::download(new TransferExport,'tes.xlsx');
     }
 
     /**

@@ -17,3 +17,4 @@ This is step by step I learn :
 12. 【Laravel 5 4 Vuejs 2 Inventory】 paginated and search table
 13. 【Laravel 5 4 Vuejs 2 Inventory】 individual column search or filter
 14. 【Laravel 5 4 Vuejs 2 Inventory】 preparing to create a createCFAT transaction
+15. 【Laravel 5 4 Vuejs 2 Inventory】 Testing a PHPExcel in laravel to create fat

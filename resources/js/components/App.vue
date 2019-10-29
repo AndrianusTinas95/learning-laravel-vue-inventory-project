@@ -8,7 +8,7 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <router-link class="nav-link" :to="{name:'createTransfer'}">Create CFAT</router-link>
+                        <router-link class="nav-link" :to="{name:'createTransfers'}">Create CFAT</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link class="nav-link" :to="{name:'products'}">Tech Items</router-link>

@@ -7,100 +7,108 @@
                             <h3>Create Teach Item</h3>
                     </div>
                     <div class="card card-body">
-                        <table class="table table-bordered">
-                            <thead>
-                                <th>Serial</th>
-                                <th>Status</th>
-                                <th>Model</th>
-                                <th>Categories</th>
-                                <th>Description</th>
-                                <th>Manufacture</th>
-                                <th>Location</th>
-                                <th style="text-align:center;">
-                                    <a v-hotkey="addTd" v-on:click="addRow" class="addRow">+
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                    </a>
-                                </th>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(addTd, index) in addRows" v-bind:key="index">
-                                    <td>
-                                        <select class="form-control"
-                                                name="product[]" 
-                                                v-model="addTd.product"
-                                                required>
-                                                <option v-for="option in products" v-bind:value="option.id" v-bind:key="option.id">
-                                                    {{option.serial ? option.serial : option.description.name }}
-                                                </option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"
-                                                v-model="addTd.status"
-                                        >
-                                            <option value="1">
-                                                Working
-                                            </option>
-                                            <option value="0">
-                                                Defective
-                                            </option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"
-                                                v-model="addTd.model"
-                                        >
-                                            <option v-for="option in brands" v-bind:value="option.id">
-                                                {{option.name}}
-                                            </option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"
-                                                v-model="addTd.category"
-                                        >
-                                            <option v-for="option in categories" v-bind:value="option.id">
-                                                {{option.name}}
-                                            </option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"
-                                                v-model="addTd.description"
-                                        >
-                                            <option v-for="option in descriptions" v-bind:value="option.id">
-                                                {{option.name}}
-                                            </option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"
-                                                v-model="addTd.manufacture"
-                                        >
-                                            <option v-for="option in manufactures" v-bind:value="option.id">
-                                                {{option.name}}
-                                            </option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"
-                                                v-model="addTd.location"
-                                        >
-                                            <option v-for="option in locations" v-bind:value="option.id">
-                                                {{option.name}}
-                                            </option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <button @click.prevent="addRows.splice(index,1)" class="btn btn-sm btn-danger">
-                                            <i class="glyphicon glyphicon-remove"></i>
-                                            x
-                                            </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="btn btn-primary" @click="addSerial"> Add Serial </button>
+                        <form action="../api/transfers" method="POST">
+                            <input type="hidden" name="_token" :value="laravelToken">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <th>Serial</th>
+                                            <th>Status</th>
+                                            <th>Model</th>
+                                            <th>Categories</th>
+                                            <th>Description</th>
+                                            <th>Manufacture</th>
+                                            <th>Location</th>
+                                            <th style="text-align:center;">
+                                                <a v-hotkey="addTd" v-on:click="addRow" class="addRow">+
+                                                    <i class="glyphicon glyphicon-plus"></i>
+                                                </a>
+                                            </th>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(addTd, index) in addRows" v-bind:key="index">
+                                                <td>
+                                                    <select class="form-control"
+                                                            name="product[]" 
+                                                            v-model="addTd.product"
+                                                            required>
+                                                            <option v-for="option in products" v-bind:value="option.id" v-bind:key="option.id">
+                                                                {{option.serial ? option.serial : option.description.name }}
+                                                            </option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control"
+                                                            v-model="addTd.status"
+                                                    >
+                                                        <option value="1">
+                                                            Working
+                                                        </option>
+                                                        <option value="0">
+                                                            Defective
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control"
+                                                            v-model="addTd.model"
+                                                    >
+                                                        <option v-for="option in brands" v-bind:value="option.id">
+                                                            {{option.name}}
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control"
+                                                            v-model="addTd.category"
+                                                    >
+                                                        <option v-for="option in categories" v-bind:value="option.id">
+                                                            {{option.name}}
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control"
+                                                            v-model="addTd.description"
+                                                    >
+                                                        <option v-for="option in descriptions" v-bind:value="option.id">
+                                                            {{option.name}}
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control"
+                                                            v-model="addTd.manufacture"
+                                                    >
+                                                        <option v-for="option in manufactures" v-bind:value="option.id">
+                                                            {{option.name}}
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control"
+                                                            v-model="addTd.location"
+                                                    >
+                                                        <option v-for="option in locations" v-bind:value="option.id">
+                                                            {{option.name}}
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <button @click.prevent="addRows.splice(index,1)" class="btn btn-sm btn-danger">
+                                                        <i class="glyphicon glyphicon-remove"></i>
+                                                        x
+                                                        </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <!-- <button class="btn btn-primary" @click="addSerial"> Add Serial </button> -->
+                                    <button class="btn btn-primary" > Add Serial </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </section>
             </div>
@@ -112,6 +120,7 @@
     export default {
         data(){
             return {
+                laravelToken:window.Laravel.csrfToken,
                 addRows:[],
                 brands:[],
                 categories:[],
