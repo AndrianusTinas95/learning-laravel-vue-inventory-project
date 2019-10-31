@@ -14,6 +14,7 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <th>Serial</th>
+                                            <th >Action</th>
                                             <th >Status</th>
                                             <th v-if="showAddSerial">Model</th>
                                             <th v-if="showAddSerial">Categories</th>
@@ -21,7 +22,7 @@
                                             <th v-if="showAddSerial">Manufacture</th>
                                             <th v-if="showAddSerial">Transfer Location</th>
                                             <th style="text-align:center;">
-                                                <a v-hotkey="addTd" v-on:click="addRow" class="addRow">
+                                                <a v-hotkey="addTd" v-on:click.prevent="addRow" class="addRow">
                                                     <button class="btn btn-primary">+</button>
                                                     <i class="glyphicon glyphicon-plus"></i>
                                                 </a>
@@ -30,32 +31,57 @@
                                         <tbody>
                                             <tr v-for="(addTd, index) in addRows" v-bind:key="index">
                                                 <td>
-                                                     <div class="input-group">
-                                                         <select class="form-control"
-                                                            name="product[]" 
-                                                            v-model="addTd.product"
-                                                            required>
-                                                            <option v-for="option in products" v-bind:value="option.id" v-bind:key="option.id">
-                                                                {{option.serial ? option.serial : option.description.name }}
-                                                            </option>
-                                                         </select>
+                                                    <div v-if="showAddSerial" class="input-group">
+                                                        <input class="form-control input-sm" 
+                                                                name="createProduct[]"
+                                                                type="text"
+                                                                v-model="addTd.createProduct">
                                                         <span class="input-group-append">
+                                                                <button class="btn btn-sm btn-danger"
+                                                                        @click.prevent="showAddSerial=false">
+                                                                x
+                                                                </button>
+                                                        </span>
+                                                    </div>
+                                                     <div v-else class="input-group">
+                                                         <span class="input-group-append">
                                                                 <button class="btn btn-sm btn-primary"
                                                                         @click.prevent="showAddSerial = !showAddSerial"> 
                                                                         +
                                                                 </button>
                                                         </span>
+                                                        <select2 :options="products" name="product[]" v-model.number="addTd.product">
+                                                            <option disabled value="0">Select One</option>
+                                                        </select2>
+                                                        
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <select class="form-control"
-                                                            v-model="addTd.status"
+                                                            v-model="addTd.action"
+                                                            name="action[]"
                                                     >
                                                         <option value="1">
                                                             Working
                                                         </option>
                                                         <option value="0">
                                                             Defective
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control"
+                                                            v-model="addTd.status"
+                                                            name="status[]"
+                                                    >
+                                                        <option value="0">
+                                                            TRANSFER
+                                                        </option>
+                                                        <option value="1">
+                                                            DEPLOY
+                                                        </option>
+                                                        <option value="1">
+                                                            REPLACED
                                                         </option>
                                                     </select>
                                                 </td>
@@ -195,13 +221,9 @@
                                                         </span>
                                                     </div>
                                                     <div v-else class="input-group">
-                                                        <select class="form-control"
-                                                            v-model="addTd.location"
-                                                        >
-                                                            <option v-for="option in locations" v-bind:value="option.id" v-bind:key="option.id">
-                                                                {{option.name}}
-                                                            </option>
-                                                        </select>
+                                                        <select2  :options="locations" name="location[]" v-model.number="addTd.location">
+                                                            <option disabled value="0">Select One</option>
+                                                        </select2>
                                                         <span class="input-group-append">
                                                                 <button class="btn btn-sm btn-primary"
                                                                         @click.prevent="addTd.showLocation = !addTd.showLocation"> 
@@ -347,7 +369,11 @@
             fetchProducts:function(){
                  var that = this ;
                 $.get("../api/products",function(data,status){
-                    that.products = data.products;
+                    that.products = _.map(data.products,function(data){
+                        var pick    = _.pick(data,'serial','id');
+                        var object  = {id:pick.id,text:pick.serial};
+                        return object; 
+                    });
                 });
                 // axios.get('../api/products').then(resp => this.products = resp.data.products);
             },
@@ -383,7 +409,7 @@
                 $.get("../api/locations",function(data,status){
                     that.locations = _.map(data.locations,function(data){
                         var pick    = _.pick(data,'name','id');
-                        var object  = {id:pick.id,name:pick.name};
+                        var object  = {id:pick.id,text:pick.name};
                         return object; 
                     });
                 });

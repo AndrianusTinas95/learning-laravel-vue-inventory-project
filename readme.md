@@ -20,3 +20,4 @@ This is step by step I learn :
 15. 【Laravel 5 4 Vuejs 2 Inventory】 Testing a PHPExcel in laravel to create fat
 16. 【Laravel 5 4 Vuejs 2 Inventory】 create a serial toggle  and create the additioncomponent
 17. 【Laravel 5 4 Vuejs 2 Inventory】 implementing select2.js wrapper component and bootstrap theme
+18. 【Laravel 5 4 Vuejs 2 Inventory】switch   add serial input and button

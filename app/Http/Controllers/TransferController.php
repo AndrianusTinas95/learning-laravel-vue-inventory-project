@@ -38,6 +38,7 @@ class TransferController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         return Excel::download(new TransferExport,'tes.xlsx');
     }
 
