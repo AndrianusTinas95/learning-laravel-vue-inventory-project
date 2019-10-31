@@ -1959,6 +1959,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2174,6 +2187,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -2848,8 +2863,45 @@ __webpack_require__.r(__webpack_exports__);
     var vm = this;
     $(this.$el).select2({
       theme: "bootstrap4",
-      data: this.$attrs.options
-    }).val(this.value).trigger('change').on('change', function () {
+      data: this.$attrs.options,
+      placeholder: 'Select One',
+      allowClear: true,
+      tags: true,
+      createTag: function createTag(params) {
+        var term = $.trim(params.term) + (vm.$attrs.options.some(function (r) {
+          return r.text == params.term;
+        }) ? "" : " (new)");
+
+        if (/ \(new\)$/.test(term) === '') {
+          return null;
+        }
+
+        return {
+          id: term,
+          text: term,
+          isNewFlag: true
+        };
+      }
+    }).val(this.value).trigger('change').on('select2:select', function (e) {
+      var _this = this;
+
+      console.log(e.params.data.id);
+
+      if (e.params.data.isNewFlag) {
+        if (/ \(new\)$/.test(e.params.data.text)) {
+          console.log(/ \(new\)$/.exec(e.params.data.text));
+          console.log($.trim(e.params.data.text.replace(/ \(new\)$/, '')));
+          var post = $.trim(e.params.data.text.replace(/ \(new\)$/, ''));
+          axios.post('../api/brands', {
+            name: post
+          }).then(function (resp) {
+            $(_this).find('[value="' + e.params.data.id + '"]').replaceWith('<option selected value="' + resp.data.id + '">' + resp.data.name + '</option>');
+          });
+        }
+      } else {
+        vm.$emit('selectValue', e.params.data.id);
+      }
+    }).on('change', function () {
       vm.$emit('input', this.value);
     });
   },
@@ -46053,33 +46105,45 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("form", { attrs: { id: "search" } }, [
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.searchQuery,
-            expression: "searchQuery"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          placeholder: "search...",
-          name: "query",
-          "aria-describedby": "basic-addon1"
-        },
-        domProps: { value: _vm.searchQuery },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.searchQuery = $event.target.value
-          }
-        }
-      })
+    _c("div", { staticClass: "container mb-2" }, [
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-10" }, [
+          _c("div", { staticClass: "row" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-auto" }, [
+              _c("form", { attrs: { id: "search" } }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.searchQuery,
+                      expression: "searchQuery"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    placeholder: "search....",
+                    name: "query",
+                    "aria-describedby": "basic-addon1"
+                  },
+                  domProps: { value: _vm.searchQuery },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.searchQuery = $event.target.value
+                    }
+                  }
+                })
+              ])
+            ])
+          ])
+        ])
+      ])
     ]),
     _vm._v(" "),
     _vm.brands
@@ -46099,7 +46163,18 @@ var render = function() {
       : _c("div", [_vm._v("\n        Loading...\n    ")])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-auto  mr-auto" }, [
+      _c("button", { staticClass: "btn btn-primary" }, [
+        _vm._v(" Create Brand ")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -46358,7 +46433,9 @@ var render = function() {
       _c("div", { staticClass: "row justify-content-center" }, [
         _c("div", { staticClass: "col-md-10" }, [
           _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [_vm._v("Header")]),
+            _c("div", { staticClass: "card-header" }, [
+              _vm._v("\n                        Header\n                    ")
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
               _c(

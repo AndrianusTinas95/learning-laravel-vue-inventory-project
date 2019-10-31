@@ -1,8 +1,21 @@
 <template>
     <div>
-        <form id="search">
-            <input type="text" class="form-control" placeholder="search..." name="query" v-model="searchQuery" aria-describedby="basic-addon1">
-        </form>
+        <div class="container mb-2">
+            <div class="row justify-content-center">
+                <div class="col-10">
+                    <div class="row">
+                        <div class="col-auto  mr-auto">
+                            <button class="btn btn-primary"> Create Brand </button>
+                        </div>
+                        <div class="col-auto">
+                            <form id="search">
+                                <input type="text" class="form-control" placeholder="search...." name="query" v-model="searchQuery" aria-describedby="basic-addon1">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div v-if="brands">
             <demo-grid
                 :data="brands"
