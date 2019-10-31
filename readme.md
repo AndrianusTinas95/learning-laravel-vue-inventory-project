@@ -23,3 +23,4 @@ This is step by step I learn :
 18. 【Laravel 5 4 Vuejs 2 Inventory】switch   add serial input and button
 19. 【Laravel 5.4 Vuejs 2 Inventory】   Tagging with axios AJAX in select2
 20. 【Laravel 5 4 Vuejs 2 Inventory】    add validation to duplicate entry
+21. 【Laravel 5 4 Vuejs 2 Inventory】  implementing Nprogress js
