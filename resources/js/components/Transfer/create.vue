@@ -77,12 +77,9 @@
                                                         </span>
                                                     </div>
                                                     <div v-else class="input-group">
-                                                        <select class="form-control"
-                                                                v-model="addTd.model">
-                                                            <option v-for="option in brands" v-bind:value="option.id" v-bind:key="option.id">
-                                                                {{option.name}}
-                                                            </option>
-                                                        </select>
+                                                        <select2 :options="brands" name="model[]" v-model.number="addTd.model">
+                                                            <option disabled value="0">Select One</option>
+                                                        </select2>
                                                         <span class="input-group-append">
                                                                 <button class="btn btn-sm btn-primary"
                                                                         @click.prevent="addTd.showModel = !addTd.showModel"> 
@@ -109,13 +106,9 @@
                                                         </span>
                                                     </div>
                                                     <div v-else class="input-group">
-                                                        <select class="form-control"
-                                                                v-model="addTd.category"
-                                                        >
-                                                            <option v-for="option in categories" v-bind:value="option.id" v-bind:key="option.id">
-                                                                {{option.name}}
-                                                            </option>
-                                                        </select>
+                                                        <select2 :options="categories" name="category[]" v-model.number="addTd.category">
+                                                            <option disabled value="0">Select One</option>
+                                                        </select2>
                                                         <span class="input-group-append">
                                                                 <button class="btn btn-sm btn-primary"
                                                                         @click.prevent="addTd.showCategory = !addTd.showCategory"> 
@@ -142,13 +135,9 @@
                                                         </span>
                                                     </div>
                                                     <div v-else class="input-group">
-                                                        <select class="form-control"
-                                                            v-model="addTd.description"
-                                                        >
-                                                            <option v-for="option in descriptions" v-bind:value="option.id" v-bind:key="option.id">
-                                                                {{option.name}}
-                                                            </option>
-                                                        </select>
+                                                        <select2 :options="descriptions" name="description[]" v-model.number="addTd.description">
+                                                            <option disabled value="0">Select One</option>
+                                                        </select2>
                                                         <span class="input-group-append">
                                                                 <button class="btn btn-sm btn-primary"
                                                                         @click.prevent="addTd.showDescription = !addTd.showDescription"> 
@@ -176,13 +165,9 @@
                                                         </span>
                                                     </div>
                                                     <div v-else class="input-group">
-                                                        <select class="form-control"
-                                                            v-model="addTd.manufacture"
-                                                        >
-                                                            <option v-for="option in manufactures" v-bind:value="option.id" v-bind:key="option.id">
-                                                                {{option.name}}
-                                                            </option>
-                                                        </select>
+                                                        <select2  :options="manufactures" name="manufacture[]" v-model.number="addTd.manufacture">
+                                                            <option disabled value="0">Select One</option>
+                                                        </select2>
                                                         <span class="input-group-append">
                                                                 <button class="btn btn-sm btn-primary"
                                                                         @click.prevent="addTd.showManufacture = !addTd.showManufacture"> 
@@ -248,6 +233,7 @@
 </template>
 
 <script>
+    import Select2 from "./Select2.vue";
     export default {
         data(){
             return {
@@ -333,39 +319,81 @@
 
             },
             fetchModel:function(){
-                // var that = this ;
-                // $.get("../api/brands",function(data,status){
-                //     that.brands = _.map(data.brands,function(data){
-
-                //     });
-                // });
-                axios.get('../api/brands').then(resp => this.brands = _.map(resp.data.brands,function(data){
-                    return _.pick(data,'name','id');
-                }))
+                var that = this ;
+                $.get("../api/brands",function(data,status){
+                    that.brands = _.map(data.brands,function(data){
+                        var pick    = _.pick(data,'name','id');
+                        var object  = {id:pick.id,text:pick.name}
+                        return object; 
+                    });
+                });
+                // axios.get('../api/brands').then(resp => this.brands = _.map(resp.data.brands,function(data){
+                //     return _.pick(data,'name','id');
+                // }))
             },
             fetchCategory:function(){
-                axios.get('../api/categories').then(resp => this.categories = _.map(resp.data.categories,function(data){
-                    return _.pick(data,'name','id');
-                }))
+                 var that = this ;
+                $.get("../api/categories",function(data,status){
+                    that.categories = _.map(data.categories,function(data){
+                        var pick    = _.pick(data,'name','id');
+                        var object  = {id:pick.id,text:pick.name};
+                        return object; 
+                    });
+                });
+                // axios.get('../api/categories').then(resp => this.categories = _.map(resp.data.categories,function(data){
+                //     return _.pick(data,'name','id');
+                // }))
             },
             fetchProducts:function(){
-                axios.get('../api/products').then(resp => this.products = resp.data.products);
+                 var that = this ;
+                $.get("../api/products",function(data,status){
+                    that.products = data.products;
+                });
+                // axios.get('../api/products').then(resp => this.products = resp.data.products);
             },
             fetchDescriptions:function(){
-                axios.get('../api/descriptions').then(resp => this.descriptions = _.map(resp.data.descriptions,function(data){
-                    return _.pick(data,'name','id');
-                }))
+                 var that = this ;
+                $.get("../api/descriptions",function(data,status){
+                    that.descriptions = _.map(data.descriptions,function(data){
+                        var pick    = _.pick(data,'name','id');
+                        var object  = {id:pick.id,text:pick.name};
+                        return object; 
+                    });
+                });
+
+                // axios.get('../api/descriptions').then(resp => this.descriptions = _.map(resp.data.descriptions,function(data){
+                //     return _.pick(data,'name','id');
+                // }))
             },
             fetchManufacture:function(){
-                axios.get('../api/manufactures').then(resp => this.manufactures = _.map(resp.data.manufactures,function(data){
-                    return _.pick(data,'name','id');
-                }))
+                 var that = this ;
+                $.get("../api/manufactures",function(data,status){
+                    that.manufactures = _.map(data.manufactures,function(data){
+                        var pick    = _.pick(data,'name','id');
+                        var object  = {id:pick.id,text:pick.name};
+                        return object; 
+                    });
+                });
+                // axios.get('../api/manufactures').then(resp => this.manufactures = _.map(resp.data.manufactures,function(data){
+                //     return _.pick(data,'name','id');
+                // }))
             },
             fetchLocation:function(){
-                axios.get('../api/locations').then(resp => this.locations = _.map(resp.data.locations,function(data){
-                    return _.pick(data,'name','id');
-                }))
+                 var that = this ;
+                $.get("../api/locations",function(data,status){
+                    that.locations = _.map(data.locations,function(data){
+                        var pick    = _.pick(data,'name','id');
+                        var object  = {id:pick.id,name:pick.name};
+                        return object; 
+                    });
+                });
+                // axios.get('../api/locations').then(resp => this.locations = _.map(resp.data.locations,function(data){
+                //     return _.pick(data,'name','id');
+                // }))
             },
-        }
+        },
+        components:{
+                'select2':Select2
+        },
     }
 </script>
