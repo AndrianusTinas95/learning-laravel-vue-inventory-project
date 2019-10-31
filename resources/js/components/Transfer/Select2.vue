@@ -69,7 +69,15 @@
                         )
                     }
                 }else{
+                    console.log(e.params.data.id)
                     vm.$emit('selectValue',e.params.data.id)
+                    vm.$emit('selectQuantityValue',e.params.data.quantity)
+                    vm.$emit('selectStatusValue',e.params.data.status)
+                    vm.$emit('selectManufactureValue',e.params.data.manufacture)
+                    vm.$emit('selectDescriptionValue',e.params.data.Description)
+                    vm.$emit('selectLocationValue',e.params.data.location)
+                    vm.$emit('selectCategoryValue',e.params.data.category)
+                    vm.$emit('selectModelValue',e.params.data.model)
                 }
             })
             .on('change',function(){

@@ -2899,7 +2899,15 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
       } else {
+        console.log(e.params.data.id);
         vm.$emit('selectValue', e.params.data.id);
+        vm.$emit('selectQuantityValue', e.params.data.quantity);
+        vm.$emit('selectStatusValue', e.params.data.status);
+        vm.$emit('selectManufactureValue', e.params.data.manufacture);
+        vm.$emit('selectDescriptionValue', e.params.data.Description);
+        vm.$emit('selectLocationValue', e.params.data.location);
+        vm.$emit('selectCategoryValue', e.params.data.category);
+        vm.$emit('selectModelValue', e.params.data.model);
       }
     }).on('change', function () {
       vm.$emit('input', this.value);
@@ -3190,6 +3198,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3222,6 +3255,27 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    validateDuplicate: function validateDuplicate(event, index) {
+      var vm = this;
+
+      var product = _.map(vm.addRows, 'product');
+
+      var pluckProduct = _.map(vm.products, 'id');
+
+      var intersect = _.intersection(product, vm.selected);
+
+      if (_.includes(vm.selected, vm.addRows[index].product)) {
+        console.error('Duplicated Entry');
+        this.addRows[index].hasError = true;
+      } else {
+        this.selected = intersect;
+        this.selected.push(this.addRows[index].product);
+        this.addRows[index].hasError = false;
+      }
+
+      console.log(pluckProduct);
+      console.log(index);
+    },
     deleteRow: function deleteRow() {
       this.addRows.pop();
     },
@@ -3256,7 +3310,9 @@ __webpack_require__.r(__webpack_exports__);
         showCategory: false,
         showDescription: false,
         showManufacture: false,
-        showLocation: false
+        showLocation: false,
+        hasError: false,
+        maxQuantity: 0
       });
     },
     createModelMethod: function createModelMethod(index) {},
@@ -3300,11 +3356,18 @@ __webpack_require__.r(__webpack_exports__);
       var that = this;
       $.get("../api/products", function (data, status) {
         that.products = _.map(data.products, function (data) {
-          var pick = _.pick(data, 'serial', 'id');
+          var pick = _.pick(data, 'serial', 'id', 'quantity', 'status', 'manufacture.id', 'description.id', 'location.id', 'category.id', 'brand.id');
 
           var object = {
             id: pick.id,
-            text: pick.serial
+            text: pick.serial,
+            quantity: pick.quantity,
+            status: pick.status,
+            manufacture: pick.manufacture.id,
+            description: pick.description.id,
+            location: pick.location.id,
+            category: pick.category.id,
+            brand: pick.brand.id
           };
           return object;
         });
@@ -47521,6 +47584,8 @@ var render = function() {
                           _vm._v(" "),
                           _c("th", [_vm._v("Status")]),
                           _vm._v(" "),
+                          _c("th", [_vm._v("Quantity")]),
+                          _vm._v(" "),
                           _vm.showAddSerial
                             ? _c("th", [_vm._v("Model")])
                             : _vm._e(),
@@ -47584,130 +47649,204 @@ var render = function() {
                           "tbody",
                           _vm._l(_vm.addRows, function(addTd, index) {
                             return _c("tr", { key: index }, [
-                              _c("td", [
-                                _vm.showAddSerial
-                                  ? _c("div", { staticClass: "input-group" }, [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: addTd.createProduct,
-                                            expression: "addTd.createProduct"
-                                          }
-                                        ],
-                                        staticClass: "form-control input-sm",
-                                        attrs: {
-                                          name: "createProduct[]",
-                                          type: "text"
-                                        },
-                                        domProps: {
-                                          value: addTd.createProduct
-                                        },
-                                        on: {
-                                          input: function($event) {
-                                            if ($event.target.composing) {
-                                              return
-                                            }
-                                            _vm.$set(
-                                              addTd,
-                                              "createProduct",
-                                              $event.target.value
-                                            )
-                                          }
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c(
-                                        "span",
-                                        { staticClass: "input-group-append" },
+                              _c(
+                                "td",
+                                { class: { "has-error": addTd.hasError } },
+                                [
+                                  _vm.showAddSerial
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "input-group" },
                                         [
-                                          _c(
-                                            "button",
-                                            {
-                                              staticClass:
-                                                "btn btn-sm btn-danger",
-                                              on: {
-                                                click: function($event) {
-                                                  $event.preventDefault()
-                                                  _vm.showAddSerial = false
-                                                }
+                                          _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: addTd.createProduct,
+                                                expression:
+                                                  "addTd.createProduct"
                                               }
+                                            ],
+                                            staticClass:
+                                              "form-control input-sm",
+                                            attrs: {
+                                              name: "createProduct[]",
+                                              type: "text"
+                                            },
+                                            domProps: {
+                                              value: addTd.createProduct
+                                            },
+                                            on: {
+                                              input: function($event) {
+                                                if ($event.target.composing) {
+                                                  return
+                                                }
+                                                _vm.$set(
+                                                  addTd,
+                                                  "createProduct",
+                                                  $event.target.value
+                                                )
+                                              }
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass: "input-group-append"
                                             },
                                             [
-                                              _vm._v(
-                                                "\n                                                            x\n                                                            "
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-sm btn-danger",
+                                                  on: {
+                                                    click: function($event) {
+                                                      $event.preventDefault()
+                                                      _vm.showAddSerial = false
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                            x\n                                                            "
+                                                  )
+                                                ]
                                               )
                                             ]
                                           )
                                         ]
                                       )
-                                    ])
-                                  : _c(
-                                      "div",
-                                      { staticClass: "input-group" },
-                                      [
-                                        _c(
-                                          "span",
-                                          { staticClass: "input-group-append" },
-                                          [
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass:
-                                                  "btn btn-sm btn-primary",
-                                                on: {
-                                                  click: function($event) {
-                                                    $event.preventDefault()
-                                                    _vm.showAddSerial = !_vm.showAddSerial
-                                                  }
-                                                }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  " \n                                                                    +\n                                                            "
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "select2",
-                                          {
-                                            attrs: {
-                                              options: _vm.products,
-                                              name: "product[]"
+                                    : _c(
+                                        "div",
+                                        { staticClass: "input-group" },
+                                        [
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass: "input-group-append"
                                             },
-                                            model: {
-                                              value: addTd.product,
-                                              callback: function($$v) {
-                                                _vm.$set(
-                                                  addTd,
-                                                  "product",
-                                                  _vm._n($$v)
-                                                )
+                                            [
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-sm btn-primary",
+                                                  on: {
+                                                    click: function($event) {
+                                                      $event.preventDefault()
+                                                      _vm.showAddSerial = !_vm.showAddSerial
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    " \n                                                                    +\n                                                            "
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "select2",
+                                            {
+                                              attrs: {
+                                                options: _vm.products,
+                                                name: "product[]"
                                               },
-                                              expression: "addTd.product"
-                                            }
-                                          },
-                                          [
-                                            _c(
-                                              "option",
-                                              {
-                                                attrs: {
-                                                  disabled: "",
-                                                  value: "0"
+                                              on: {
+                                                selectValue: function($event) {
+                                                  return _vm.validateDuplicate(
+                                                    $event,
+                                                    index
+                                                  )
+                                                },
+                                                selectQuantityValue: function(
+                                                  $event
+                                                ) {
+                                                  addTd.maxQuantity = $event
+                                                },
+                                                selectStatusValue: function(
+                                                  $event
+                                                ) {
+                                                  addTd.status = $event
+                                                  addTd.status == 0
+                                                    ? (addTd.action = 2)
+                                                    : (addTd.action = 1)
+                                                },
+                                                selectManufactureValue: function(
+                                                  $event
+                                                ) {
+                                                  addTd.manufacture = $event
+                                                },
+                                                selectDescriptionValue: function(
+                                                  $event
+                                                ) {
+                                                  addTd.description = $event
+                                                },
+                                                selectLocationValue: function(
+                                                  $event
+                                                ) {
+                                                  addTd.location = $event
+                                                },
+                                                selectCategoryValue: function(
+                                                  $event
+                                                ) {
+                                                  addTd.category = $event
+                                                },
+                                                selectModelValue: function(
+                                                  $event
+                                                ) {
+                                                  addTd.model = $event
                                                 }
                                               },
-                                              [_vm._v("Select One")]
-                                            )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    )
-                              ]),
+                                              model: {
+                                                value: addTd.product,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    addTd,
+                                                    "product",
+                                                    _vm._n($$v)
+                                                  )
+                                                },
+                                                expression: "addTd.product"
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "option",
+                                                {
+                                                  attrs: {
+                                                    disabled: "",
+                                                    value: "0"
+                                                  }
+                                                },
+                                                [_vm._v("Select One")]
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "form-text",
+                                      class: { "d-none": !addTd.hasError },
+                                      attrs: { id: "helpBlock2" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                                    Duplicated Entry\n                                                "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
                               _vm._v(" "),
                               _c("td", [
                                 _c(
@@ -47819,6 +47958,48 @@ var render = function() {
                                     ])
                                   ]
                                 )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model.number",
+                                      value: addTd.quantity,
+                                      expression: "addTd.quantity",
+                                      modifiers: { number: true }
+                                    }
+                                  ],
+                                  staticClass: "form-control input-sm",
+                                  attrs: {
+                                    name: "quantity[]",
+                                    min: "1",
+                                    max: addTd.maxQuantity
+                                      ? addTd.maxQuantity
+                                      : addTd.maxQuantity == 0
+                                      ? 1
+                                      : 0,
+                                    type: "number",
+                                    required: ""
+                                  },
+                                  domProps: { value: addTd.quantity },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        addTd,
+                                        "quantity",
+                                        _vm._n($event.target.value)
+                                      )
+                                    },
+                                    blur: function($event) {
+                                      return _vm.$forceUpdate()
+                                    }
+                                  }
+                                })
                               ]),
                               _vm._v(" "),
                               _vm.showAddSerial

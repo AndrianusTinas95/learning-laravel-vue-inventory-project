@@ -16,6 +16,7 @@
                                             <th>Serial</th>
                                             <th >Action</th>
                                             <th >Status</th>
+                                            <th >Quantity</th>
                                             <th v-if="showAddSerial">Model</th>
                                             <th v-if="showAddSerial">Categories</th>
                                             <th v-if="showAddSerial">Description</th>
@@ -30,7 +31,7 @@
                                         </thead>
                                         <tbody>
                                             <tr v-for="(addTd, index) in addRows" v-bind:key="index">
-                                                <td>
+                                                <td :class="{'has-error':addTd.hasError}">
                                                     <div v-if="showAddSerial" class="input-group">
                                                         <input class="form-control input-sm" 
                                                                 name="createProduct[]"
@@ -50,11 +51,25 @@
                                                                         +
                                                                 </button>
                                                         </span>
-                                                        <select2 :options="products" name="product[]" v-model.number="addTd.product">
+                                                        <select2 :options="products" 
+                                                                name="product[]"                      
+                                                                v-model.number="addTd.product"
+                                                                @selectValue = "validateDuplicate($event,index)"
+                                                                @selectQuantityValue = "addTd.maxQuantity = $event"
+                                                                @selectStatusValue = "addTd.status = $event; addTd.status == 0 ? addTd.action = 2 : addTd.action = 1"
+                                                                @selectManufactureValue = "addTd.manufacture = $event"
+                                                                @selectDescriptionValue = "addTd.description = $event"
+                                                                @selectLocationValue = "addTd.location = $event"
+                                                                @selectCategoryValue = "addTd.category = $event"
+                                                                @selectModelValue= "addTd.model= $event"
+                                                        >
                                                             <option disabled value="0">Select One</option>
                                                         </select2>
                                                         
                                                     </div>
+                                                    <span id="helpBlock2" :class="{'d-none': !addTd.hasError}" class="form-text">
+                                                        Duplicated Entry
+                                                    </span>
                                                 </td>
                                                 <td>
                                                     <select class="form-control"
@@ -84,6 +99,16 @@
                                                             REPLACED
                                                         </option>
                                                     </select>
+                                                </td>
+                                                <td>
+                                                    <!-- v-model.number ="addTd.quantity ? 1 : addTd.quantity" -->
+                                                    <input name="quantity[]"
+                                                            class="form-control input-sm"
+                                                            min="1"
+                                                            v-model.number ="addTd.quantity"
+                                                            v-bind:max="addTd.maxQuantity ? addTd.maxQuantity : (addTd.maxQuantity == 0 ? 1 :0)"
+                                                            type="number"
+                                                            required>
                                                 </td>
                                                 <td v-if="showAddSerial">
                                                     <div v-if="addTd.showModel" class="input-group">
@@ -288,6 +313,22 @@
             }
         },
         methods:{
+            validateDuplicate(event,index){
+                var vm = this
+                var product         = _.map(vm.addRows,'product')
+                var pluckProduct    = _.map(vm.products,'id')
+                var intersect       = _.intersection(product,vm.selected)
+                if(_.includes(vm.selected, vm.addRows[index].product)){
+                    console.error('Duplicated Entry')
+                    this.addRows[index].hasError=true;
+                }else{
+                    this.selected = intersect
+                    this.selected.push(this.addRows[index].product)
+                    this.addRows[index].hasError=false;
+                }
+                console.log(pluckProduct)
+                console.log(index)
+            },
             deleteRow(){
                 this.addRows.pop()
             },
@@ -323,6 +364,8 @@
                     showManufacture:false,
                     showLocation:false,
 
+                    hasError:false,
+                    maxQuantity:0
                 });
             },
             createModelMethod(index){
@@ -370,8 +413,10 @@
                  var that = this ;
                 $.get("../api/products",function(data,status){
                     that.products = _.map(data.products,function(data){
-                        var pick    = _.pick(data,'serial','id');
-                        var object  = {id:pick.id,text:pick.serial};
+                        var pick    = _.pick(data,'serial','id','quantity','status','manufacture.id','description.id','location.id','category.id','brand.id');
+                        var object  = {
+                            id:pick.id,text:pick.serial,quantity : pick.quantity, status : pick.status , manufacture : pick.manufacture.id, description : pick.description.id, location : pick.location.id, category : pick.category.id,brand : pick.brand.id
+                        };
                         return object; 
                     });
                 });

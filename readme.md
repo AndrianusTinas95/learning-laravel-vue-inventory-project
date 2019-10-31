@@ -22,3 +22,4 @@ This is step by step I learn :
 17. 【Laravel 5 4 Vuejs 2 Inventory】 implementing select2.js wrapper component and bootstrap theme
 18. 【Laravel 5 4 Vuejs 2 Inventory】switch   add serial input and button
 19. 【Laravel 5.4 Vuejs 2 Inventory】   Tagging with axios AJAX in select2
+20. 【Laravel 5 4 Vuejs 2 Inventory】    add validation to duplicate entry
