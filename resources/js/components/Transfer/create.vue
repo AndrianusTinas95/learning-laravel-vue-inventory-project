@@ -21,7 +21,7 @@
                                             <th v-if="showAddSerial">Categories</th>
                                             <th v-if="showAddSerial">Description</th>
                                             <th v-if="showAddSerial">Manufacture</th>
-                                            <th v-if="showAddSerial">Transfer Location</th>
+                                            <th >Transfer Location</th>
                                             <th style="text-align:center;">
                                                 <a v-hotkey="addTd" v-on:click.prevent="addRow" class="addRow">
                                                     <button class="btn btn-primary">+</button>
@@ -34,9 +34,10 @@
                                                 <td :class="{'has-error':addTd.hasError}">
                                                     <div v-if="showAddSerial" class="input-group">
                                                         <input class="form-control input-sm" 
-                                                                name="createProduct[]"
+                                                                name="createModel[]"
                                                                 type="text"
-                                                                v-model="addTd.createProduct">
+                                                                v-model="addTd.createModel"
+                                                                @change="getQuantity(addTd.product,index)">
                                                         <span class="input-group-append">
                                                                 <button class="btn btn-sm btn-danger"
                                                                         @click.prevent="showAddSerial=false">
@@ -228,7 +229,7 @@
                                                     </div>
                                                 </td>
 
-                                                <td v-if="showAddSerial">
+                                                <td >
                                                     <div v-if="addTd.showLocation" class="input-group">
                                                         <input class="form-control input-sm" 
                                                                 name="createLocation[]"
@@ -382,6 +383,9 @@
             },
             createLocationMethod(index){
 
+            },
+            getQuantity(quantity,index){
+                console.log(quantity)
             },
             fetchModel:function(){
                 var that = this ;

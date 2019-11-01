@@ -3223,6 +3223,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3320,6 +3321,9 @@ __webpack_require__.r(__webpack_exports__);
     createDescriptionMethod: function createDescriptionMethod(index) {},
     createManufactureMethod: function createManufactureMethod(index) {},
     createLocationMethod: function createLocationMethod(index) {},
+    getQuantity: function getQuantity(quantity, index) {
+      console.log(quantity);
+    },
     fetchModel: function fetchModel() {
       var that = this;
       $.get("../api/brands", function (data, status) {
@@ -48138,9 +48142,7 @@ var render = function() {
                             ? _c("th", [_vm._v("Manufacture")])
                             : _vm._e(),
                           _vm._v(" "),
-                          _vm.showAddSerial
-                            ? _c("th", [_vm._v("Transfer Location")])
-                            : _vm._e(),
+                          _c("th", [_vm._v("Transfer Location")]),
                           _vm._v(" "),
                           _c(
                             "th",
@@ -48199,28 +48201,33 @@ var render = function() {
                                               {
                                                 name: "model",
                                                 rawName: "v-model",
-                                                value: addTd.createProduct,
-                                                expression:
-                                                  "addTd.createProduct"
+                                                value: addTd.createModel,
+                                                expression: "addTd.createModel"
                                               }
                                             ],
                                             staticClass:
                                               "form-control input-sm",
                                             attrs: {
-                                              name: "createProduct[]",
+                                              name: "createModel[]",
                                               type: "text"
                                             },
                                             domProps: {
-                                              value: addTd.createProduct
+                                              value: addTd.createModel
                                             },
                                             on: {
+                                              change: function($event) {
+                                                return _vm.getQuantity(
+                                                  addTd.product,
+                                                  index
+                                                )
+                                              },
                                               input: function($event) {
                                                 if ($event.target.composing) {
                                                   return
                                                 }
                                                 _vm.$set(
                                                   addTd,
-                                                  "createProduct",
+                                                  "createModel",
                                                   $event.target.value
                                                 )
                                               }
@@ -49182,165 +49189,151 @@ var render = function() {
                                   ])
                                 : _vm._e(),
                               _vm._v(" "),
-                              _vm.showAddSerial
-                                ? _c("td", [
-                                    addTd.showLocation
-                                      ? _c(
-                                          "div",
-                                          { staticClass: "input-group" },
-                                          [
-                                            _c("input", {
-                                              directives: [
-                                                {
-                                                  name: "model",
-                                                  rawName: "v-model",
-                                                  value: addTd.createLocation,
-                                                  expression:
-                                                    "addTd.createLocation"
-                                                }
-                                              ],
+                              _c("td", [
+                                addTd.showLocation
+                                  ? _c("div", { staticClass: "input-group" }, [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: addTd.createLocation,
+                                            expression: "addTd.createLocation"
+                                          }
+                                        ],
+                                        staticClass: "form-control input-sm",
+                                        attrs: {
+                                          name: "createLocation[]",
+                                          type: "text"
+                                        },
+                                        domProps: {
+                                          value: addTd.createLocation
+                                        },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              addTd,
+                                              "createLocation",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        { staticClass: "input-group-append" },
+                                        [
+                                          _c(
+                                            "button",
+                                            {
                                               staticClass:
-                                                "form-control input-sm",
-                                              attrs: {
-                                                name: "createLocation[]",
-                                                type: "text"
-                                              },
-                                              domProps: {
-                                                value: addTd.createLocation
-                                              },
+                                                "btn btn-sm btn-primary",
                                               on: {
-                                                input: function($event) {
-                                                  if ($event.target.composing) {
-                                                    return
-                                                  }
-                                                  _vm.$set(
-                                                    addTd,
-                                                    "createLocation",
-                                                    $event.target.value
+                                                click: function($event) {
+                                                  $event.preventDefault()
+                                                  return _vm.createLocationMethod(
+                                                    index
                                                   )
                                                 }
                                               }
-                                            }),
-                                            _vm._v(" "),
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                                            +\n                                                            "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-sm btn-danger",
+                                              on: {
+                                                click: function($event) {
+                                                  $event.preventDefault()
+                                                  addTd.showLocation = false
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                                            x\n                                                            "
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ])
+                                  : _c(
+                                      "div",
+                                      { staticClass: "input-group" },
+                                      [
+                                        _c(
+                                          "select2",
+                                          {
+                                            attrs: {
+                                              options: _vm.locations,
+                                              name: "location[]"
+                                            },
+                                            model: {
+                                              value: addTd.location,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  addTd,
+                                                  "location",
+                                                  _vm._n($$v)
+                                                )
+                                              },
+                                              expression: "addTd.location"
+                                            }
+                                          },
+                                          [
                                             _c(
-                                              "span",
+                                              "option",
+                                              {
+                                                attrs: {
+                                                  disabled: "",
+                                                  value: "0"
+                                                }
+                                              },
+                                              [_vm._v("Select One")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "span",
+                                          { staticClass: "input-group-append" },
+                                          [
+                                            _c(
+                                              "button",
                                               {
                                                 staticClass:
-                                                  "input-group-append"
+                                                  "btn btn-sm btn-primary",
+                                                on: {
+                                                  click: function($event) {
+                                                    $event.preventDefault()
+                                                    addTd.showLocation = !addTd.showLocation
+                                                  }
+                                                }
                                               },
                                               [
-                                                _c(
-                                                  "button",
-                                                  {
-                                                    staticClass:
-                                                      "btn btn-sm btn-primary",
-                                                    on: {
-                                                      click: function($event) {
-                                                        $event.preventDefault()
-                                                        return _vm.createLocationMethod(
-                                                          index
-                                                        )
-                                                      }
-                                                    }
-                                                  },
-                                                  [
-                                                    _vm._v(
-                                                      "\n                                                            +\n                                                            "
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "button",
-                                                  {
-                                                    staticClass:
-                                                      "btn btn-sm btn-danger",
-                                                    on: {
-                                                      click: function($event) {
-                                                        $event.preventDefault()
-                                                        addTd.showLocation = false
-                                                      }
-                                                    }
-                                                  },
-                                                  [
-                                                    _vm._v(
-                                                      "\n                                                            x\n                                                            "
-                                                    )
-                                                  ]
+                                                _vm._v(
+                                                  " \n                                                                    +\n                                                            "
                                                 )
                                               ]
                                             )
                                           ]
                                         )
-                                      : _c(
-                                          "div",
-                                          { staticClass: "input-group" },
-                                          [
-                                            _c(
-                                              "select2",
-                                              {
-                                                attrs: {
-                                                  options: _vm.locations,
-                                                  name: "location[]"
-                                                },
-                                                model: {
-                                                  value: addTd.location,
-                                                  callback: function($$v) {
-                                                    _vm.$set(
-                                                      addTd,
-                                                      "location",
-                                                      _vm._n($$v)
-                                                    )
-                                                  },
-                                                  expression: "addTd.location"
-                                                }
-                                              },
-                                              [
-                                                _c(
-                                                  "option",
-                                                  {
-                                                    attrs: {
-                                                      disabled: "",
-                                                      value: "0"
-                                                    }
-                                                  },
-                                                  [_vm._v("Select One")]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "span",
-                                              {
-                                                staticClass:
-                                                  "input-group-append"
-                                              },
-                                              [
-                                                _c(
-                                                  "button",
-                                                  {
-                                                    staticClass:
-                                                      "btn btn-sm btn-primary",
-                                                    on: {
-                                                      click: function($event) {
-                                                        $event.preventDefault()
-                                                        addTd.showLocation = !addTd.showLocation
-                                                      }
-                                                    }
-                                                  },
-                                                  [
-                                                    _vm._v(
-                                                      " \n                                                                    +\n                                                            "
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            )
-                                          ],
-                                          1
-                                        )
-                                  ])
-                                : _vm._e(),
+                                      ],
+                                      1
+                                    )
+                              ]),
                               _vm._v(" "),
                               _c("td", [
                                 _c(
